@@ -1340,6 +1340,7 @@ void Tracking::UpdateLocalKeyFrames()
 
 bool Tracking::Relocalization()
 {
+    return false;
     // Compute Bag of Words Vector
     mCurrentFrame.ComputeBoW();
 
@@ -1510,6 +1511,11 @@ void Tracking::Reset()
         mpViewer->RequestStop();
         while(!mpViewer->isStopped())
             usleep(3000);
+    }
+
+    if (mpLocalMapper->isStopped()){
+        mbOnlyTracking = false;
+        mpLocalMapper->Release();
     }
 
     // Reset Local Mapping
